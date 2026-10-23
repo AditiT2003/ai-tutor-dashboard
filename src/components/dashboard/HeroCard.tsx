@@ -17,12 +17,51 @@ function BenefitRow() {
   return <div className="mt-8 grid gap-4 sm:grid-cols-3">{benefits.map((item) => <div key={item.title} className="flex items-center gap-3"><span className={`grid size-11 shrink-0 place-items-center rounded-xl ${item.color}`}><Icon name={item.icon}/></span><span className="min-w-0"><strong className="block text-xs sm:text-sm">{item.title}</strong><small className="text-xs text-indigo-200/70">{item.text}</small></span></div>)}</div>
 }
 
-export default function HeroCard() {
-  return <article className="overflow-hidden rounded-3xl border border-indigo-300/20 bg-[radial-gradient(ellipse_at_70%_30%,_rgba(118,75,220,0.28),_transparent_42%),linear-gradient(125deg,rgba(33,57,108,0.64),rgba(65,43,116,0.48))] p-6 shadow-lg shadow-indigo-950/20 sm:p-8">
-    <div className="grid items-center gap-5 md:grid-cols-[1.15fr_0.85fr]">
-      <div><p className="text-xs font-bold tracking-[0.2em] text-blue-200">⚑ YOUR NEXT STEP</p><h2 className="mt-3 text-3xl font-bold sm:text-4xl">Function Parameters</h2><p className="mt-2 text-indigo-100/85">Practice passing values to functions.</p><button className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 px-8 py-3 font-semibold shadow-lg shadow-blue-950/30">Start <Icon name="arrow" size={18}/></button></div>
-      <div className="relative"><p className="mb-3 text-right font-serif text-sm italic text-violet-200">Practice today.<br/>Build tomorrow.</p><CodePreview/></div>
-    </div>
-    <BenefitRow/>
-  </article>
+import type { NextStep } from "../../types/dashboard";
+
+interface HeroCardProps {
+  nextStep: NextStep;
+  onStart: () => void;
+}
+
+export default function HeroCard({
+  nextStep,
+  onStart,
+}: HeroCardProps) {
+  return (
+    <article className="overflow-hidden rounded-3xl border border-indigo-300/20 bg-[radial-gradient(ellipse_at_70%_30%,_rgba(118,75,220,0.28),_transparent_42%),linear-gradient(125deg,rgba(33,57,108,0.64),rgba(65,43,116,0.48))] p-6 shadow-lg shadow-indigo-950/20 sm:p-8">
+      <div className="grid items-center gap-5 md:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <p className="text-xs font-bold tracking-[0.2em] text-blue-200">
+            ⚑ YOUR NEXT STEP
+          </p>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
+            {nextStep.title}
+          </h2>
+          <p className="mt-2 text-indigo-100/85">
+            {nextStep.description}
+          </p>
+          
+<button
+  type="button"
+  onClick={onStart}
+  className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 px-8 py-3 font-semibold shadow-lg shadow-blue-950/30"
+>
+  {nextStep.actionLabel}
+  <Icon name="arrow" size={18} />
+</button>
+
+        </div>
+        <div className="relative">
+          <p className="mb-3 text-right font-serif text-sm italic text-violet-200">
+            Practice today.
+            <br />
+            Build tomorrow.
+          </p>
+          <CodePreview />
+        </div>
+      </div>
+      <BenefitRow />
+    </article>
+  );
 }
